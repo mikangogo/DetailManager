@@ -1,0 +1,18 @@
+LIBRARY	"DetailManager"
+EXPORTS
+	Load=atsLoad
+	Dispose=atsDispose
+	GetPluginVersion=atsGetPluginVersion
+	SetVehicleSpec=atsSetVehicleSpec
+	Initialize=atsInitialize
+	Elapse=atsElapse
+	SetPower=atsSetPower
+	SetBrake=atsSetBrake
+	SetReverser=atsSetReverser
+	KeyDown=atsKeyDown
+	KeyUp=atsKeyUp
+	HornBlow=atsHornBlow
+	DoorOpen=atsDoorOpen
+	DoorClose=atsDoorClose
+	SetSignal=atsSetSignal
+	SetBeaconData=atsSetBeaconData
