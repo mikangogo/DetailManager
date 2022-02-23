@@ -73,8 +73,8 @@ BOOL WINAPI DllMain(
             GetModuleFileNameW(hinstDLL, fullpath, MAX_PATH);
             _wsplitpath_s(fullpath, drive, MAX_PATH, dir, MAX_PATH, 0, 0, 0, 0);
 
-            wcscpy(g_module_dir, drive);
-            wcscat(g_module_dir, dir);
+            wcscpy_s(g_module_dir, drive);
+            wcscat_s(g_module_dir, dir);
         }
 		
         break;
@@ -106,21 +106,23 @@ void WINAPI atsLoad()
         memset(g_detailmodules, 0, sizeof(ST_DETAILMODULE_ATS_DELEGATE_FUNC) * MAX_DETAILMODULE_NUM);
         memset(g_handles, 0, sizeof(ATS_HANDLES) * 2);
 
-        wcscpy(detailmodules_txt_path, g_module_dir);
-        wcscat(detailmodules_txt_path, L"\\detailmodules.txt");
+        wcscpy_s(detailmodules_txt_path, g_module_dir);
+        wcscat_s(detailmodules_txt_path, L"\\detailmodules.txt");
         
         ret = _wstat(detailmodules_txt_path, &buf);
     }
 
     if (!ret)
     {
-        FILE* fp = _wfopen(detailmodules_txt_path, L"r");
+        FILE *fp = NULL;
+        _wfopen_s(&fp, detailmodules_txt_path, L"r");
 
         while (!feof(fp))
         {
             char module_path[MAX_PATH];
             wchar_t module_full_path[MAX_PATH],
                     module_path_wcs[MAX_PATH];
+            size_t tmp = 0;
 
             memset(module_path, 0, sizeof(char) * MAX_PATH);
 
@@ -135,10 +137,10 @@ void WINAPI atsLoad()
                 }
             }
 
-            wcscpy(module_full_path, g_module_dir);
-            mbstowcs(module_path_wcs, module_path, MAX_PATH);
+            wcscpy_s(module_full_path, g_module_dir);
+            mbstowcs_s(&tmp, module_path_wcs, module_path, MAX_PATH);
 //            wcscat(module_full_path, L"..\\..\\Plugin\\");
-            wcscat(module_full_path, module_path_wcs);
+            wcscat_s(module_full_path, module_path_wcs);
 
             {
                 struct _stat buf;
